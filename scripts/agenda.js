@@ -64,3 +64,57 @@ const listarLocalStorage = () => {
                 </td>`
     })
 }
+
+listar.addEventListener('click', e =>{
+    console.log(e)
+
+    const btnEliminar= e.target.classList.contains('btn-danger')
+    const id = e.target.id
+    
+    const LS = JSON.parse(localStorage.getItem("Agenda"))
+    const buscarId = LS.find(datos => datos.id === Number(id))
+
+    if(btnEliminar){
+        LS.forEach((el, index) => {
+            if(el.id === buscarId.id){
+                console.log('lo encontre')
+                LS.splice(index, 1)
+                console.log(LS)
+                localStorage.setItem("Agenda", JSON.stringify(LS))
+                listarLocalStorage()
+            }
+        })
+    }
+
+    const btnEditar = e.target.classList.contains('btn-success')
+
+
+})
+
+btnBuscar.addEventListener('click', e => {
+    e.preventDefault()
+
+    let buscar = document.getElementById('search').value
+    console.log(buscar)
+
+    const todaDataLS = JSON.parse(localStorage.getItem("Agenda"))
+
+    let filtrado = todaDataLS.filter( toda => toda.nombre.toLowerCase() === buscar.toLowerCase())
+    console.log(filtrado)
+
+    let filtrarTodos = todaDataLS.filter(toda => toda.nombre.toUpperCase().includes((buscar.toUpperCase())))
+    console.log(filtrarTodos)
+
+    mostrarBusq.innerHTML = ''
+    filtrarTodos.length === 0 ?
+        alert('No existe el nombre')
+    :
+    filtrarTodos.map(mostrar => {
+        const {nombre, apellido, fecha, hora} = mostrar
+
+        mostrarBusq.innerHTML +=`
+            <h1>${nombre} ${apellido}</h1>
+            <h3>${fecha}</h3>
+            <h3>${hora}</h3>`
+    })
+})
