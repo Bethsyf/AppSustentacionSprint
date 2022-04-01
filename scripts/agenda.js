@@ -36,12 +36,13 @@ const agendar = () => {
     if(key !== null){
          key.unshift(agregarAgenda)
          localStorage.setItem('Agenda', JSON.stringify(key))
+         form.reset();
     }
     else{
        citaSustentacion.unshift(agregarAgenda)
        localStorage.setItem('Agenda', JSON.stringify(citaSustentacion))
     }
-    form.reset();
+    
     listarLocalStorage();
 }
 
@@ -65,6 +66,7 @@ const listarLocalStorage = () => {
                 </td>`
     })
 }
+document.addEventListener(DOMContentLoaded, listarLocalStorage);
 
 listar.addEventListener('click', e =>{
     console.log(e)
@@ -73,11 +75,11 @@ listar.addEventListener('click', e =>{
     const id = e.target.id;
     
     const LS = JSON.parse(localStorage.getItem("Agenda"));
-    const buscarId = LS.find(datos => datos.id === Number(id));
+    const buscarId = LS.find((datos) => datos.id === Number(id));
 
     if(btnEliminar){
-        LS.forEach((el, index) => {
-            if(el.id === buscarId.id){
+        LS.forEach((datos, index) => {
+            if(datos.id === buscarId.id){
                 console.log('lo encontre')
                 LS.splice(index, 1);
                 console.log(LS)
@@ -89,8 +91,8 @@ listar.addEventListener('click', e =>{
 
     const btnEditar = e.target.classList.contains('btn-success');
     if(btnEditar){
-    LS.forEach((el, index) =>{
-        if(el.id === buscarId.id){
+    LS.forEach((datos, index) =>{
+        if(datos.id === buscarId.id){
             LS.editAgenda(index, 1);
             localStorage.setItem("Agenda", JSON.stringify(LS));
             listarLocalStorage();
