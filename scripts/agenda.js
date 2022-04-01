@@ -1,23 +1,23 @@
-const form = document.getElementById('form')
-const listar = document.getElementById('listarAgenda')
-const btnBuscar = document.getElementById('btn-search')
-const mostrarBusq = document.getElementById('mostrarBusq')
+const form = document.getElementById('form');
+const listar = document.getElementById('listarAgenda');
+const btnBuscar = document.getElementById('btn-search');
+const mostrarBusq = document.getElementById('mostrarBusq');
 
-let citaSustentacion= []
+let citaSustentacion= [];
 
 form.addEventListener('submit', e => {
-    e.preventDefault()
-    agendar()
+    e.preventDefault();
+    agendar();
 })
 
 const agendar = () => {
-    let nombre = document.getElementById('nombre').value
-    let apellido = document.getElementById('apellido').value
-    let correo = document.getElementById('correo').value
-    let fecha = document.getElementById('fecha').value
-    let hora = document.getElementById('hora').value
-    let observacion = document.getElementById('obser').value
-    console.table(nombre, apellido, correo, fecha, hora, observacion)
+    let nombre = document.getElementById('nombre').value;
+    let apellido = document.getElementById('apellido').value;
+    let correo = document.getElementById('correo').value;
+    let fecha = document.getElementById('fecha').value;
+    let hora = document.getElementById('hora').value;
+    let observacion = document.getElementById('obser').value;
+    console.table(nombre, apellido, correo, fecha, hora, observacion);
 
     let agregarAgenda = {
         id: Math.round(Math.random() * (100 - 1) + 1),
@@ -29,9 +29,9 @@ const agendar = () => {
         observacion,
     }
 
-    console.table(agregarAgenda)   
+    console.table(agregarAgenda);
     
-    const key = JSON.parse(localStorage.getItem("Agenda"))
+    const key = JSON.parse(localStorage.getItem("Agenda"));
 
     if(key !== null){
          key.unshift(agregarAgenda)
@@ -41,7 +41,8 @@ const agendar = () => {
        citaSustentacion.unshift(agregarAgenda)
        localStorage.setItem('Agenda', JSON.stringify(citaSustentacion))
     }
-    listarLocalStorage()
+    form.reset();
+    listarLocalStorage();
 }
 
 const listarLocalStorage = () => {
@@ -68,28 +69,38 @@ const listarLocalStorage = () => {
 listar.addEventListener('click', e =>{
     console.log(e)
 
-    const btnEliminar= e.target.classList.contains('btn-danger')
-    const id = e.target.id
+    const btnEliminar= e.target.classList.contains('btn-danger');
+    const id = e.target.id;
     
-    const LS = JSON.parse(localStorage.getItem("Agenda"))
-    const buscarId = LS.find(datos => datos.id === Number(id))
+    const LS = JSON.parse(localStorage.getItem("Agenda"));
+    const buscarId = LS.find(datos => datos.id === Number(id));
 
     if(btnEliminar){
         LS.forEach((el, index) => {
             if(el.id === buscarId.id){
                 console.log('lo encontre')
-                LS.splice(index, 1)
+                LS.splice(index, 1);
                 console.log(LS)
-                localStorage.setItem("Agenda", JSON.stringify(LS))
-                listarLocalStorage()
+                localStorage.setItem("Agenda", JSON.stringify(LS));
+                listarLocalStorage();
             }
         })
     }
 
-    const btnEditar = e.target.classList.contains('btn-success')
+    const btnEditar = e.target.classList.contains('btn-success');
+    if(btnEditar){
+    LS.forEach((el, index) =>{
+        if(el.id === buscarId.id){
+            LS.editAgenda(index, 1);
+            localStorage.setItem("Agenda", JSON.stringify(LS));
+            listarLocalStorage();
 
+        }
+    })
+}
 
 })
+
 
 btnBuscar.addEventListener('click', e => {
     e.preventDefault()
