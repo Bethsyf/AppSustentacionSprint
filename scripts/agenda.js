@@ -78,8 +78,8 @@ listar.addEventListener('click', e =>{
     const buscarId = LS.find((datos) => datos.id === Number(id));
 
     if(btnEliminar){
-        LS.forEach((datos, index) => {
-            if(datos.id === buscarId.id){
+        LS.forEach((element, index) => {
+            if(element.id === buscarId.id){
                 console.log('lo encontre')
                 LS.splice(index, 1);
                 console.log(LS)
@@ -91,8 +91,8 @@ listar.addEventListener('click', e =>{
 
     const btnEditar = e.target.classList.contains('btn-success');
     if(btnEditar){
-    LS.forEach((datos, index) =>{
-        if(datos.id === buscarId.id){
+    LS.forEach((element, index) =>{
+        if(element.id === buscarId.id){
             LS.editAgenda(index, 1);
             localStorage.setItem("Agenda", JSON.stringify(LS));
             listarLocalStorage();
